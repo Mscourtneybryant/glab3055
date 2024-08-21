@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table
@@ -16,21 +17,34 @@ public class Teacher implements Serializable {
     private int teacherId;
     private String salary;
     private String teacherName;
+    // @OneToOne(cascade = CascadeType.ALL)
+    // private Address address;
 
+    @ManyToMany(targetEntity = Cohort.class)
+    private Set<Cohort> cohort;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private model.Address address;
-
-    public model.Address getAddress() {
-        return address;
+    public Set<model.Cohort> getCohort() {
+        return cohort;
     }
 
-    public void setAddress(model.Address address) {
-        this.address = address;
+    public void setCohort(Set<model.Cohort> cohort) {
+        this.cohort = cohort;
     }
 
+    //public Address getAddress() {
+    //     return address;
+    // }
 
-    public Teacher( String salary, String teacherName) {
+    // public void setAddress(Address address) {
+    //     this.address = address;
+    // }
+
+    public Teacher(String salary, String teacherName, Set<model.Cohort> cohort) {
+        this.salary = salary;
+        this.teacherName = teacherName;
+    }
+
+    public Teacher(String salary, String teacherName) {
         super();
         this.salary = salary;
         this.teacherName = teacherName;    }
@@ -41,6 +55,10 @@ public class Teacher implements Serializable {
         this.teacherName = teacherName;
     }
 
+    public Teacher(String salary, String teacherName) {
+        this.salary = salary;
+        this.teacherName = teacherName;
+    }
 
     public int getTeacherId() {
         return teacherId;
@@ -60,3 +78,4 @@ public class Teacher implements Serializable {
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;    }
 }
+
